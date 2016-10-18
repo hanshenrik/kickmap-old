@@ -1,0 +1,35 @@
+
+/* General styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Assistant', sans-serif;
+  font-weight: 300; }
+
+#map {
+  height: 500px;
+  width: 100%; }
+
+.songkick-attribution {
+  float: right; /* TODO: use flexbox, not float */
+  margin: 10px;
+  height: 50px;
+  width: auto; }
+
+
+/* Custom Mapbox styles */
+.concert-marker {
+  /* TODO: use an image instead of just color */
+  /*background-image: url('images/concert.svg');
+  background-size: cover;*/
+  background: #A0D1CA;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  cursor: pointer; }
+
+
+/* Override mapbox styles */
+.mapboxgl-popup-content {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 20px; }
