@@ -1,7 +1,4 @@
 
-// Constants
-var SONGKICK_API_KEY = 'YOUR_SONGKICK_API_KEY';
-
 // Variables
 var markers = [];
 var eventsGeoJson = {
@@ -9,15 +6,17 @@ var eventsGeoJson = {
     "features": []
 };
 
+
 function getPage(areaID, page) {
+  console.log("Fetching page " + page + " for areaID " + areaID);
   $.getJSON( "http://api.songkick.com/api/3.0/metro_areas/" + areaID + "/calendar.json",
     {
       apikey: SONGKICK_API_KEY,
       page: page
     })
       .done( function(data) {
+        console.log("Got page " + page + " for areaID " + areaID);
         $.each( data.resultsPage.results.event, function( i, concert ) {
-          console.log(concert);
 
           // Create a slightly offset position, so concerts at a venue don't overlap
           var lngSlightOffset = concert.location.lng + getRandomNumber(-0.00015, 0.00015);
@@ -93,9 +92,22 @@ function getPage(areaID, page) {
           markers.push(marker);
 
         });
-          map.on('load', function() {
+
+        // Get next page if we're not at the last page
+        var totalEntries = data.resultsPage.totalEntries;
+        var perPage = data.resultsPage.perPage;
+
+        if (page*perPage >= totalEntries) {
+          console.log("Finished fetching events from Songkick");
+        }
+        else {
+          getPage(31422, page+1);
+
+          // Start playback after first page is loaded
+          if (page === 1) {
             playback(0);
-          });
+          }
+        }
       })
       .fail( function() {} )
       .always( function() {} );

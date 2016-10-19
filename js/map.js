@@ -1,7 +1,4 @@
 
-// Constants
-var MAPBOX_ACCESS_TOKEN = 'YOUR_MAPBOX_ACCESS_TOKEN';
-
 // Variables
 var center = [10.73, 59.92];
 var zoomLevel = 15;
