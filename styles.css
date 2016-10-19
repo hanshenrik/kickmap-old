@@ -23,6 +23,7 @@ body {
   /*background-image: url('images/concert.svg');
   background-size: cover;*/
   background: #A0D1CA;
+  border: 1px solid rgba(0, 0, 0, 0.4);
   width: 15px;
   height: 15px;
   border-radius: 50%;
