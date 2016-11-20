@@ -1,6 +1,6 @@
 
 // Variables
-var markers = [];
+// var markers = [];
 var eventsGeoJson = {
     "type": "FeatureCollection",
     "features": []
@@ -19,13 +19,15 @@ function getPage(areaID, page) {
         $.each( data.resultsPage.results.event, function( i, concert ) {
 
           // Create a slightly offset position, so concerts at a venue don't overlap
-          var lngSlightOffset = concert.location.lng + getRandomNumber(-0.00015, 0.00015);
-          var latSlightOffset = concert.location.lat + getRandomNumber(-0.00015, 0.00015);
+          var lngSlightOffset = concert.location.lng // + getRandomNumber(-0.00015, 0.00015);
+          var latSlightOffset = concert.location.lat // + getRandomNumber(-0.00015, 0.00015);
 
           var feature = {
             "type": "Feature",
             "properties": {
-              "title": concert['displayName']
+              "title": concert['displayName'],
+              "uri": concert["uri"],
+              "popularity": concert["popularity"]
             },
             "geometry": {
               "type": "Point",
@@ -83,13 +85,13 @@ function getPage(areaID, page) {
           var popup = new mapboxgl.Popup( { offset: [0, -15] } )
               .setText(feature.properties.title);
 
-          // Add the marker to map
-          var marker = new mapboxgl.Marker(element, { offset: [-15 / 2, -15 / 2] })
-              .setLngLat(feature.geometry.coordinates)
-              .setPopup(popup)
-              .addTo(map);
+          // // Add the marker to map
+          // var marker = new mapboxgl.Marker(element, { offset: [-15 / 2, -15 / 2] })
+          //     .setLngLat(feature.geometry.coordinates)
+          //     .setPopup(popup)
+          //     .addTo(map);
 
-          markers.push(marker);
+          // markers.push(marker);
 
         });
 
