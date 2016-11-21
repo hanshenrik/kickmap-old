@@ -21,13 +21,15 @@ function getPage(areaID, page) {
           // Create a slightly offset position, so concerts at a venue don't overlap
           var lngSlightOffset = concert.location.lng // + getRandomNumber(-0.00015, 0.00015);
           var latSlightOffset = concert.location.lat // + getRandomNumber(-0.00015, 0.00015);
-
+          // console.log(concert)
           var feature = {
             "type": "Feature",
             "properties": {
-              "title": concert['displayName'],
-              "uri": concert["uri"],
-              "popularity": concert["popularity"]
+              "title": concert.displayName,
+              "uri": concert.uri,
+              "venue": concert.venue.displayName,
+              "date": concert.start.date,
+              "popularity": concert.popularity
             },
             "geometry": {
               "type": "Point",
@@ -39,7 +41,6 @@ function getPage(areaID, page) {
             }
           }
 
-          // TODO: Do we need global overview of features, or is markers enough?
           eventsGeoJson.features.push(feature);
 
           // TODO: draw line from actual venue position to position of concert marker
@@ -101,13 +102,14 @@ function getPage(areaID, page) {
 
         if (page*perPage >= totalEntries) {
           console.log("Finished fetching events from Songkick");
+          playback(0);
         }
         else {
           getPage(31422, page+1);
 
           // Start playback after first page is loaded
           if (page === 1) {
-            playback(0);
+            // playback(0);
           }
         }
       })

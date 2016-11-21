@@ -8,7 +8,7 @@
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
   
   <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css' />
-  <!-- <link rel='stylesheet' href='https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css' integrity='sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE' crossorigin='anonymous' /> -->
+  <link rel='stylesheet' href='https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css' integrity='sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE' crossorigin='anonymous' />
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Assistant:300' />
   
   <link rel='stylesheet' href='styles.css' />
@@ -23,9 +23,12 @@
     <div class='map-overlay'>
       <div class="concert-properties">
         <h2 id='title'></h2>
-        <p id='popularity'></p>
-        <a href='#' id='uri'></a>
+        <p><i class="fa fa-map-marker"></i><span id='venue'></span></p>
+        <p><i class="fa fa-line-chart"></i><span id='popularity'></span></p>
+        <p><i class="fa fa-calendar"></i><span id='date'></span></p>
+        <p><i class="fa fa-info-circle"></i><a href='#' id='uri'>Read more...</a></p>
       </div>
+      <img class='songkick-attribution' src='images/powered-by-songkick-black.svg' />
     </div>
   </div>
 
@@ -34,6 +37,5 @@
   <script src='js/get-concerts.js'></script>
   <script src='js/map.js'></script>
 
-  <img class='songkick-attribution' src='images/powered-by-songkick-black.svg' />
 </body>
 </html>

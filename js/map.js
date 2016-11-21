@@ -4,6 +4,19 @@ var center = [10.73, 59.92];
 var zoomLevel = 16;
 var timeAtEachConcert = 5000; // milliseconds
 var colors = ['#51FFAE', '#17F08A', '#2DFC9B', '#00C86A']
+var highlightVenueGeoJson =
+  {
+    "type": "geojson",
+    "data": {
+      "type": "FeatureCollection",
+      "features": [{
+        "type": "Feature",
+        "geometry": {
+          "type": "Point"
+        }
+      }]
+    }
+  }
 
 
 // Configure Mapbox
@@ -129,11 +142,41 @@ function playback(index) {
   // Change the text
   $('.concert-properties').fadeOut(function() {
     $('#title').text(concertFeature.properties.title);
+    $('#venue').text(concertFeature.properties.venue);
+    $('#date').text(concertFeature.properties.date);
     $('#popularity').text(concertFeature.properties.popularity);
-    $('#uri').text(concertFeature.properties.uri).attr('href', concertFeature.properties.uri);
+    $('#uri').attr('href', concertFeature.properties.uri);
     $(this).fadeIn();
   });
-  // description.textContent = concertFeature.properties.description;
+  
+  highlightVenueGeoJson.data.features[0].geometry.coordinates = concertFeature.geometry.coordinates;
+
+  if (map.getSource('highlight-venue') !== undefined) {
+    map.getSource('highlight-venue').setData({
+      "type": "FeatureCollection",
+      "features": [{
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": concertFeature.geometry.coordinates
+        }
+      }]
+    })
+  }
+  else {
+    map.addSource("highlight-venue", highlightVenueGeoJson);
+
+    map.addLayer({
+      "id": "highlight-venue-circle",
+      "type": "circle",
+      "source": "highlight-venue",
+      "paint": {
+        "circle-radius": 30,
+        "circle-color": "lightyellow",
+        "circle-opacity": 0.4
+      }
+    });
+  }
 
   // Animate the map position based on camera properties
   map.flyTo({
