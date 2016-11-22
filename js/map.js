@@ -1,7 +1,7 @@
 
 // Variables
 var center = [10.73, 59.92];
-var zoomLevel = 16;
+var zoomLevel = 13;
 var timeAtEachConcert = 5000; // milliseconds
 var colors = ['#51FFAE', '#17F08A', '#2DFC9B', '#00C86A']
 var highlightVenueGeoJson =
@@ -29,56 +29,68 @@ var map = new mapboxgl.Map({
   zoom: zoomLevel
 });
 
-map.on('load', function() {
+function addLayers() {
+  // Also, add a data source for all venues
+  map.addSource("venues", {
+    type: "geojson",
+    data: venuesGeoJson
+  });
+
+  // Add a layer showing the venues.
+  map.addLayer({
+    "id": "venues",
+    "type": "symbol",
+    "source": "venues",
+    "layout": {
+      "icon-image": "marker-15",
+      "icon-allow-overlap": true
+    }
+  });
+
   // Add a new source from our GeoJSON data and set the
   // 'cluster' option to true.
-  map.addSource("earthquakes", {
+  map.addSource("concerts", {
     type: "geojson",
-    // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
-    // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
-    data: eventsGeoJson,
+    data: concertsGeoJson,
     cluster: true,
     clusterMaxZoom: 20, // Max zoom to cluster points on
     clusterRadius: 20 // Radius of each cluster when clustering points (defaults to 50)
   });
 
-  // Use the earthquakes source to create five layers:
-  // One for unclustered points, three for each cluster category,
-  // and one for cluster labels.
+  // Use the concerts source to create five layers:
+  // - one for unclustered points,
+  // - three for each cluster category,
+  // - one for cluster labels
   map.addLayer({
     "id": "unclustered-points",
     "type": "symbol",
-    "source": "earthquakes",
+    "source": "concerts",
     "filter": ["!has", "point_count"],
     "layout": {
         "icon-image": "circle-15",
         "icon-size": 1.5,
         "text-field": "{title}",
         "text-offset": [0, 0.6],
-        "text-anchor": "top",
+        "text-anchor": "top"
     },
     "paint": {
-      // "icon-color": colors[0],
-      // "icon-halo-color": "rgba(45, 252, 155, 1)",
-      "text-color": "white",
-      // "circle-color": colors[0],
-      // "circle-radius": 8,
+      "text-color": "white"
     }
   });
 
-  // Display the earthquake data in three layers, each filtered to a range of
+  // Display the concert data in three layers, each filtered to a range of
   // count values. Each range gets a different fill color.
   var layers = [
       [50, colors[3]],
-      [20, colors[2]],
-      [0, colors[1]]
+      [20, colors[1]],
+      [0, colors[0]]
   ];
 
   layers.forEach(function (layer, i) {
     map.addLayer({
       "id": "cluster-" + i,
       "type": "circle",
-      "source": "earthquakes",
+      "source": "concerts",
       "paint": {
           "circle-color": layer[1],
           "circle-radius": 18
@@ -95,24 +107,20 @@ map.on('load', function() {
   map.addLayer({
     "id": "cluster-count",
     "type": "symbol",
-    "source": "earthquakes",
+    "source": "concerts",
     "layout": {
         "text-field": "{point_count}",
-        "text-font": [
-            "DIN Offc Pro Medium",
-            "Arial Unicode MS Bold"
-        ],
         "text-size": 12
     }
   });
-});
-
+}
+  
 // When a click event occurs near a polygon, open a popup at the location of
 // the feature, with description HTML from its properties.
 map.on('click', function (e) {
-  var features = map.queryRenderedFeatures(e.point, { layers: ['unclustered-points'] });
+  var features = map.queryRenderedFeatures(e.point, { layers: ['unclustered-points', 'venues'] });
   if (!features.length) {
-      return;
+    return;
   }
 
   var feature = features[0];
@@ -124,44 +132,33 @@ map.on('click', function (e) {
 });
 
 
-// Loops through all markers indefinitely
+// Loops through all concerts indefinitely
 function playback(index) {
-  // Index of next marker. Modulus length makes it 0 if we're at the last index
+  // Index of next concert. Modulus length makes it 0 if we're at the last index
   // var nextIndex = (index + 1) % markers.length;
-  var nextIndex = (index + 1) % eventsGeoJson.features.length;
+  var nextIndex = (index + 1) % concertsGeoJson.features.length;
 
-  // Get the feature
-  var concertFeature = eventsGeoJson.features[index];
-
-  // Fetch the next marker
+  // Get the current concert
   // var marker = markers[index];
+  var concertFeature = concertsGeoJson.features[index];
 
-  // Show the popup of this marker
+  // Show the info for this concert
   // marker.togglePopup();
-
-  // Change the text
   $('.concert-properties').fadeOut(function() {
+    $('#artist-img').attr('src', 'http://images.sk-static.com/images/media/profile_images/artists/'+concertFeature.properties.artistID+'/huge_avatar');
     $('#title').text(concertFeature.properties.title);
     $('#venue').text(concertFeature.properties.venue);
     $('#date').text(concertFeature.properties.date);
     $('#popularity').text(concertFeature.properties.popularity);
     $('#uri').attr('href', concertFeature.properties.uri);
+
     $(this).fadeIn();
   });
   
   highlightVenueGeoJson.data.features[0].geometry.coordinates = concertFeature.geometry.coordinates;
 
   if (map.getSource('highlight-venue') !== undefined) {
-    map.getSource('highlight-venue').setData({
-      "type": "FeatureCollection",
-      "features": [{
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": concertFeature.geometry.coordinates
-        }
-      }]
-    })
+    map.getSource('highlight-venue').setData(highlightVenueGeoJson.data)
   }
   else {
     map.addSource("highlight-venue", highlightVenueGeoJson);
@@ -183,21 +180,20 @@ function playback(index) {
     center: concertFeature.geometry.coordinates,
     speed: 0.2,                        // Speed of the flight
     curve: 1.3,                        // How far out it should zoom on the flight from A to B
+    zoom: getRandomNumber(14, 17),     // Set a random zoom level for effect
     pitch: getRandomNumber(0, 61),     // Pitch for coolness
-    bearing: getRandomNumber(-10, 10)  // Tilt slightly for more coolness
+    bearing: getRandomNumber(-10, 10)  // Tilt north direction slightly for even more coolness
   });
 
-  // Once the flight has ended, initiate the timeout that triggers recursive call
+  // Once the flight has ended, initiate a timeout that triggers a recursive call
   map.once('moveend', function() {
-    // Duration the slide is on screen after interaction
     window.setTimeout( function() {
-
       // Hide the popup of this marker
       // marker.togglePopup();
 
       // Recursive call, fly to next concert
       playback(nextIndex);
-    }, timeAtEachConcert); // After callback, stay at the location for x milliseconds.
+    }, timeAtEachConcert); // After callback, stay at the location for x milliseconds
   });
 }
 

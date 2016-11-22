@@ -13,10 +13,15 @@ body {
 
 .songkick-attribution {
   /*float: right;  TODO: use flexbox, not float */
-  /*margin: 10px;*/
-  height: 50px;
+  margin: 10px 0;
+  height: 40px;
   width: auto; }
 
+#artist-img {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+}
 
 .map-overlay-container {
   position: absolute;
@@ -25,7 +30,7 @@ body {
   top: 0;
   right: 0;
   /*padding: 10px;*/
-  /*z-index: 1;*/
+  z-index: 1;
 }
 
 .map-overlay {
@@ -34,14 +39,6 @@ body {
   /*border-radius: 3px;*/
   padding: 16px;
   box-shadow:0 1px 2px rgba(0,0,0,0.20);
-}
-
-.map-overlay h2,
-.map-overlay p {
-  margin: 0 0 10px; }
-
-.concert-properties {
-  /*transition: all 1s ease-in-out;*/
 }
 
 /* Custom Mapbox styles */

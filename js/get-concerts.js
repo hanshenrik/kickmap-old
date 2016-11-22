@@ -1,10 +1,15 @@
 
 // Variables
 // var markers = [];
-var eventsGeoJson = {
-    "type": "FeatureCollection",
-    "features": []
+var venues = new Set();
+var concertsGeoJson = {
+  "type": "FeatureCollection",
+  "features": []
 };
+var venuesGeoJson = {
+  "type": "FeatureCollection",
+  "features": []
+}
 
 
 function getPage(areaID, page) {
@@ -17,11 +22,7 @@ function getPage(areaID, page) {
       .done( function(data) {
         console.log("Got page " + page + " for areaID " + areaID);
         $.each( data.resultsPage.results.event, function( i, concert ) {
-
-          // Create a slightly offset position, so concerts at a venue don't overlap
-          var lngSlightOffset = concert.location.lng // + getRandomNumber(-0.00015, 0.00015);
-          var latSlightOffset = concert.location.lat // + getRandomNumber(-0.00015, 0.00015);
-          // console.log(concert)
+          console.log(concert)
           var feature = {
             "type": "Feature",
             "properties": {
@@ -29,62 +30,29 @@ function getPage(areaID, page) {
               "uri": concert.uri,
               "venue": concert.venue.displayName,
               "date": concert.start.date,
-              "popularity": concert.popularity
+              "popularity": concert.popularity,
+              "artistID": concert.performance[0].artist.id
             },
             "geometry": {
               "type": "Point",
-              "coordinates":
-                [
-                  lngSlightOffset,
-                  latSlightOffset
-                ]
+              "coordinates": [concert.location.lng, concert.location.lat]
             }
           }
 
-          eventsGeoJson.features.push(feature);
-
-          // TODO: draw line from actual venue position to position of concert marker
-          // map.addSource("route", {
-          //   "type": "geojson",
-          //   "data": {
-          //     "type": "Feature",
-          //     "properties": {},
-          //     "geometry": {
-          //       "type": "LineString",
-          //       "coordinates": [
-          //         [-122.48369693756104, 37.83381888486939],
-          //         [-122.48348236083984, 37.83317489144141],
-          //       ]
-          //     }
-          //   }
-          // });
-
-          // map.addLayer({
-          //   "id": "route",
-          //   "type": "line",
-          //   "source": "route",
-          //   "layout": {
-          //     "line-join": "round",
-          //     "line-cap": "round"
-          //   },
-          //   "paint": {
-          //     "line-color": "#888",
-          //     "line-width": 8
-          //   }
-          // });
+          concertsGeoJson.features.push(feature);
 
           // Create a DOM element for the marker
-          var element = document.createElement('div');
-          element.className = 'concert-marker';
+          // var element = document.createElement('div');
+          // element.className = 'concert-marker';
 
-          // Set an event listener on the element so we can do something when it is clicked
-          element.addEventListener('click', function() {
-            window.open(concert.uri)
-          });
+          // // Set an event listener on the element so we can do something when it is clicked
+          // element.addEventListener('click', function() {
+          //   window.open(concert.uri)
+          // });
 
           // Create a popup
-          var popup = new mapboxgl.Popup( { offset: [0, -15] } )
-              .setText(feature.properties.title);
+          // var popup = new mapboxgl.Popup( { offset: [0, -15] } )
+          //     .setText(feature.properties.title);
 
           // // Add the marker to map
           // var marker = new mapboxgl.Marker(element, { offset: [-15 / 2, -15 / 2] })
@@ -94,6 +62,15 @@ function getPage(areaID, page) {
 
           // markers.push(marker);
 
+          // Create a popup
+          // var popup = new mapboxgl.Popup( { offset: [0, -15] } )
+          //     .setText(concert.venue.displayName);
+
+          // Add the venue to a Set so we only add one featuer per venue
+          if (!venues.has(concert.venue.displayName)) {
+            venues.add(concert.venue.displayName);
+            venuesGeoJson.features.push(feature);
+          }
         });
 
         // Get next page if we're not at the last page
@@ -102,19 +79,18 @@ function getPage(areaID, page) {
 
         if (page*perPage >= totalEntries) {
           console.log("Finished fetching events from Songkick");
+          console.log('Adding layers to the map');
+          addLayers();
+          console.log("Starting playback");
           playback(0);
         }
         else {
           getPage(31422, page+1);
-
-          // Start playback after first page is loaded
-          if (page === 1) {
-            // playback(0);
-          }
         }
       })
       .fail( function() {} )
       .always( function() {} );
 }
 
+// Start fetching pages for Oslo
 getPage(31422, 1);
