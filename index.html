@@ -4,10 +4,11 @@
   <meta charset='utf-8' />
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.js'></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js'></script>
   
-  <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.28.0/mapbox-gl.css' />
+  <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' />
   <link rel='stylesheet' href='https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css' integrity='sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE' crossorigin='anonymous' />
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Assistant:300' />
   
@@ -19,38 +20,13 @@
 
   <div id='map'></div>
 
-  <div class='map-overlay-container'>
-    <div class='map-overlay'>
-      <div class='concert-properties'>
-        <h3 id='title'></h3>
-        <img id="artist-img" \>
-        <table>
-          <tr>
-            <td>
-              <i class='fa fa-map-marker'></i>
-            </td>
-            <td id='venue'></td>
-          </tr>
-          <tr>
-            <td>
-              <i class='fa fa-line-chart'></i>
-            </td>
-            <td id='popularity'></td>
-          </tr>
-          <tr>
-            <td><i class='fa fa-calendar'></i></td>
-            <td id='date'></td>
-          </tr>
-          <tr>
-            <td><i class='fa fa-info-circle'></i></td>
-            <td><a href='#' target='_blank' id='uri'>songkick event</a></td>
-          </tr>
-        </table>
-      </div>
-      <img class='songkick-attribution' src='images/powered-by-songkick-black.svg' />
-    </div>
-  </div>
+  <!-- <div class='map-overlay-container'>
+    <div class='map-overlay'></div>
+  </div> -->
 
+  <div id='concerts'></div>
+  
+  <img class='songkick-attribution' src='images/powered-by-songkick-black.svg' />
 
   <script src='js/api-keys.js'></script>
   <script src='js/get-concerts.js'></script>

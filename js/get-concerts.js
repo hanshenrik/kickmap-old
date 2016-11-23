@@ -20,18 +20,26 @@ function getPage(areaID, page) {
       page: page
     })
       .done( function(data) {
-        console.log("Got page " + page + " for areaID " + areaID);
+        var totalEntries = data.resultsPage.totalEntries;
+        var perPage = data.resultsPage.perPage;
+        var totalPages = Math.ceil(totalEntries/perPage);
+
+        console.log("Got page " + page + "/" + totalPages + " for areaID " + areaID);
         $.each( data.resultsPage.results.event, function( i, concert ) {
-          console.log(concert)
+          // console.log(concert)
+
+          // Create a GeoJson feature so we can represent the concert on the map
           var feature = {
             "type": "Feature",
             "properties": {
+              "id": concert.id,
               "title": concert.displayName,
               "uri": concert.uri,
               "venue": concert.venue.displayName,
               "date": concert.start.date,
               "popularity": concert.popularity,
               "artistID": concert.performance[0].artist.id
+              // TODO: remove unneeded properties from feature
             },
             "geometry": {
               "type": "Point",
@@ -40,6 +48,36 @@ function getPage(areaID, page) {
           }
 
           concertsGeoJson.features.push(feature);
+
+          // Create some HTML to show info about the concert in the list
+          var $div = $('<div>').attr('id', 'concert-' + concert.id).attr('class', 'concert').html(" \
+              <h3 id='title'>" + concert.displayName + "</h3> \
+              <img id='artist-img' src='http://images.sk-static.com/images/media/profile_images/artists/" + concert.performance[0].artist.id + "/huge_avatar' \> \
+              <table> \
+                <tr> \
+                  <td> \
+                    <i class='fa fa-map-marker'></i> \
+                  </td> \
+                  <td id='venue'>" + concert.venue.displayName + "</td> \
+                </tr> \
+                <tr> \
+                  <td> \
+                    <i class='fa fa-line-chart'></i> \
+                  </td> \
+                  <td id='popularity'>" + concert.popularity + "</td> \
+                </tr> \
+                <tr> \
+                  <td><i class='fa fa-calendar'></i></td> \
+                  <td id='date'>" + concert.start.date + "</td> \
+                </tr> \
+                <tr> \
+                  <td><i class='fa fa-info-circle'></i></td> \
+                  <td><a href='" + concert.uri + "' target='_blank' id='uri'>songkick event</a></td> \
+                </tr> \
+              </table> \
+          ")
+
+          $('#concerts').append($div);
 
           // Create a DOM element for the marker
           // var element = document.createElement('div');
@@ -74,15 +112,12 @@ function getPage(areaID, page) {
         });
 
         // Get next page if we're not at the last page
-        var totalEntries = data.resultsPage.totalEntries;
-        var perPage = data.resultsPage.perPage;
-
         if (page*perPage >= totalEntries) {
           console.log("Finished fetching events from Songkick");
           console.log('Adding layers to the map');
           addLayers();
           console.log("Starting playback");
-          playback(0);
+          // playback(0);
         }
         else {
           getPage(31422, page+1);

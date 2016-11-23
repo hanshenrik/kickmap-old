@@ -3,6 +3,7 @@
 var center = [10.73, 59.92];
 var zoomLevel = 13;
 var timeAtEachConcert = 5000; // milliseconds
+var activeConcertId;
 var colors = ['#51FFAE', '#17F08A', '#2DFC9B', '#00C86A']
 var highlightVenueGeoJson =
   {
@@ -28,6 +29,7 @@ var map = new mapboxgl.Map({
   center: center,
   zoom: zoomLevel
 });
+
 
 function addLayers() {
   // Also, add a data source for all venues
@@ -114,7 +116,8 @@ function addLayers() {
     }
   });
 }
-  
+
+
 // When a click event occurs near a polygon, open a popup at the location of
 // the feature, with description HTML from its properties.
 map.on('click', function (e) {
@@ -144,17 +147,39 @@ function playback(index) {
 
   // Show the info for this concert
   // marker.togglePopup();
-  $('.concert-properties').fadeOut(function() {
-    $('#artist-img').attr('src', 'http://images.sk-static.com/images/media/profile_images/artists/'+concertFeature.properties.artistID+'/huge_avatar');
-    $('#title').text(concertFeature.properties.title);
-    $('#venue').text(concertFeature.properties.venue);
-    $('#date').text(concertFeature.properties.date);
-    $('#popularity').text(concertFeature.properties.popularity);
-    $('#uri').attr('href', concertFeature.properties.uri);
 
-    $(this).fadeIn();
+  // Scroll to the correct info section
+  $("html, body").animate({ scrollTop: $('#concert-' + concertFeature.properties.id).position().top + 2 }, 800)
+
+  // Once the flight has ended, initiate a timeout that triggers a recursive call
+  map.once('moveend', function() {
+    window.setTimeout( function() {
+      // Hide the popup of this marker
+      // marker.togglePopup();
+
+      // Recursive call, fly to next concert
+      playback(nextIndex);
+    }, timeAtEachConcert); // After callback, stay at the location for x milliseconds
   });
-  
+}
+
+
+window.onscroll = function() {
+  var concertIds = Object.keys(concertsGeoJson.features);
+  $.each(concertsGeoJson.features, function() {
+    var concertId = 'concert-' + this.properties.id;
+    if (isElementOnScreen(concertId)) {
+      setActiveChapter(this);
+      return false;
+    }
+  })
+};
+
+function setActiveChapter(concertFeature) {
+  var concertId = 'concert-' + concertFeature.properties.id;
+  if (concertId === activeConcertId) return;
+
+  // Highlight the position on the map to feed the user with a spoon where the concert is
   highlightVenueGeoJson.data.features[0].geometry.coordinates = concertFeature.geometry.coordinates;
 
   if (map.getSource('highlight-venue') !== undefined) {
@@ -185,16 +210,18 @@ function playback(index) {
     bearing: getRandomNumber(-10, 10)  // Tilt north direction slightly for even more coolness
   });
 
-  // Once the flight has ended, initiate a timeout that triggers a recursive call
-  map.once('moveend', function() {
-    window.setTimeout( function() {
-      // Hide the popup of this marker
-      // marker.togglePopup();
+  // map.flyTo(chapters[concertId]);
 
-      // Recursive call, fly to next concert
-      playback(nextIndex);
-    }, timeAtEachConcert); // After callback, stay at the location for x milliseconds
-  });
+  $('#' + concertId).addClass('active');
+  $('#' + activeConcertId).removeClass('active');
+
+  activeConcertId = concertId;
+}
+
+function isElementOnScreen(id) {
+  var element = document.getElementById(id);
+  var bounds = element.getBoundingClientRect();
+  return bounds.top < window.innerHeight && bounds.bottom > 0;
 }
 
 
