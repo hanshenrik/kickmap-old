@@ -20,11 +20,12 @@
   - note: sources and layers are added after data object is populated
 
 3) cluster the concerts
-  - uncomment cluster options in addSources()
-  - uncomment the other layers in addLayers()
+  - uncomment cluster options in addSources() in map.js
+  - uncomment the other layers in addLayers() in map.js
 
 4) concert info list
-  - uncomment #concerts in index.html
+  - uncomment #concerts + img in index.html
+  - uncomment 70% width in style.css
   - uncomment addConcertSection() in data.js
 
 5) interact with map
