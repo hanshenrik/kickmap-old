@@ -4,33 +4,35 @@
   <meta charset='utf-8' />
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
+  <!-- Mapbox -->
   <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' rel='stylesheet' />
+  
+  <!-- jQuery -->
   <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js'></script>
-  
-  <link rel='stylesheet' href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.26.0/mapbox-gl.css' />
-  <link rel='stylesheet' href='https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css' integrity='sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE' crossorigin='anonymous' />
-  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Assistant:300' />
-  
-  <link rel='stylesheet' href='styles.css' />
 
-  <title>kickmap</title>
+  <!-- Font Awesome -->
+  <link href='https://opensource.keycdn.com/fontawesome/4.6.3/font-awesome.min.css' rel='stylesheet' integrity='sha384-Wrgq82RsEean5tP3NK3zWAemiNEXofJsTwTyHmNb/iL3dP/sZJ4+7sOld1uqYJtE' crossorigin='anonymous' />
+  
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Assistant:300' rel='stylesheet' />
+  
+  <link href='styles/styles.css' rel='stylesheet' />
+
+  <title>kickmap | give me concerts</title>
 </head>
 <body>
 
   <div id='map'></div>
-
-  <!-- <div class='map-overlay-container'>
-    <div class='map-overlay'></div>
-  </div> -->
 
   <div id='concerts'></div>
   
   <img class='songkick-attribution' src='images/powered-by-songkick-black.svg' />
 
   <script src='js/api-keys.js'></script>
-  <script src='js/get-concerts.js'></script>
+  <script src='js/data.js'></script>
   <script src='js/map.js'></script>
+  <script src='js/app.js'></script>
 
 </body>
 </html>

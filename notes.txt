@@ -1,9 +1,43 @@
-Intro to webmaps
-  - https://www.mapbox.com/help/how-web-maps-work/
 
-GL vs. Raster
-  - much smoother with GL!
+1) index.html + app.js
+  - mapbox <script> and <link> tags
+  - siv#map in index.html
+  - setupMap() in map.js
 
-Examples:
-  - http://www.jernbaneverket.no/Jernbanen/togkart/
-  - https://www.mapbox.com/bites/00115/gl/
+2) data.js
+  - uncomment data.js in index.html
+  - uncomment getConcerts() in app.js
+  - look at console
+    - see what data we have to work with
+  - look at
+    - concertsGeoJson
+    - getSongkickConcertsPage()
+      - feature geometry
+      - pushed to concertsGeoJson
+  - still nothing on the map...
+    - uncomment addSources() in data.js
+    - uncomment addLayers() in data.js
+  - note: sources and layers are added after data object is populated
+
+3) cluster the concerts
+  - uncomment cluster options in addSources()
+  - uncomment the other layers in addLayers()
+
+4) concert info list
+  - uncomment #concerts in index.html
+  - uncomment addConcertSection() in data.js
+
+5) interact with map
+  - uncomment addScrollListener() in app.js
+  - uncomment flyTo() in map.js
+  - opacity in styles.css
+
+6) play
+  - uncomment playback() in data.js
+
+7) custom Mapbox style
+  - switch style in map.js
+  - show mapbox.com/studio
+
+extra note: markers at same location with Leaflet's MarkerCluster
+  - http://leaflet.github.io/Leaflet.markercluster/example/marker-clustering-realworld.10000.html
