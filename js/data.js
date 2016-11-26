@@ -25,9 +25,6 @@ function getSongkickConcertsPage(areaID, page) {
 
         console.log('Got page ' + page + '/' + totalPages + ' for areaID ' + areaID);
         $.each( data.resultsPage.results.event, function(i, concert) {
-          // Print only first concert from each page to avoid blowing up the console
-          if (i === 0) console.log(concert);
-
           // Create a GeoJson feature so we can represent the concert on the map
           var feature = {
             "type": "Feature",
@@ -68,29 +65,35 @@ function getSongkickConcertsPage(areaID, page) {
 function addConcertSection(concert) {
   var $concertDiv = $('<div>').attr('id', 'concert-' + concert.id).attr('class', 'concert').html(" \
     <h3 id='title'>" + concert.displayName + "</h3> \
-    <img id='artist-img' src='http://images.sk-static.com/images/media/profile_images/artists/" + concert.performance[0].artist.id + "/huge_avatar' \> \
-    <table> \
-      <tr> \
-        <td> \
-          <i class='fa fa-map-marker'></i> \
-        </td> \
-        <td id='venue'>" + concert.venue.displayName + "</td> \
-      </tr> \
-      <tr> \
-        <td> \
-          <i class='fa fa-line-chart'></i> \
-        </td> \
-        <td id='popularity'>" + concert.popularity + "</td> \
-      </tr> \
-      <tr> \
-        <td><i class='fa fa-calendar'></i></td> \
-        <td id='date'>" + concert.start.date + "</td> \
-      </tr> \
-      <tr> \
-        <td><i class='fa fa-info-circle'></i></td> \
-        <td><a href='" + concert.uri + "' target='_blank' id='uri'>songkick event</a></td> \
-      </tr> \
-    </table> \
+    <div class='concert-info'> \
+      <div> \
+        <table> \
+          <tr> \
+            <td> \
+              <i class='fa fa-map-marker'></i> \
+            </td> \
+            <td id='venue'>" + concert.venue.displayName + "</td> \
+          </tr> \
+          <tr> \
+            <td> \
+              <i class='fa fa-line-chart'></i> \
+            </td> \
+            <td id='popularity'>" + concert.popularity + "</td> \
+          </tr> \
+          <tr> \
+            <td><i class='fa fa-calendar'></i></td> \
+            <td id='date'>" + concert.start.date + "</td> \
+          </tr> \
+          <tr> \
+            <td><i class='fa fa-info-circle'></i></td> \
+            <td><a href='" + concert.uri + "' target='_blank' id='uri'>songkick event</a></td> \
+          </tr> \
+        </table> \
+      </div> \
+      <div> \
+        <img id='artist-img' src='http://images.sk-static.com/images/media/profile_images/artists/" + concert.performance[0].artist.id + "/huge_avatar' \> \
+      </div> \
+    </div> \
   ");
 
   $('#concerts').append($concertDiv);
