@@ -1,6 +1,8 @@
 # kickmap
 A map showing concerts in an area. Concerts are fetched from [Songkick](https://www.songkick.com), the map is made with [Mapbox GL](https://www.mapbox.com/).
 
+![Oslo kickmap](https://raw.githubusercontent.com/hanshenrik/kickmap/master/images/kickmap.gif)
+
 # API keys
 ## Songkick
 Songkick requires all users of their API to apply for an API key. You can do so at [songkick.com/developer](https://www.songkick.com/developer). Beware this might take about 2 weeks, even though they say it should only take 7 days.

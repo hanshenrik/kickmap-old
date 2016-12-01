@@ -2,8 +2,9 @@
 // Variables
 var map;
 var activeConcertId;
-var timeAtEachConcert = 2000; // milliseconds
+var timeAtEachConcert = 4000; // milliseconds
 var colors = ['#7DFFC2', '#17F08A', '#00C86A'];
+var distanceToTopForActiveConcertInfo = 200;
 var highlightVenueGeoJson =
   {
     "type": "geojson",
@@ -146,8 +147,6 @@ function setActiveConcert(concertFeature) {
     });
   }
 
-  // map.setCenter(concertFeature.geometry.coordinates);
-
   // Animate the map position based on camera properties
   map.flyTo({
     center: concertFeature.geometry.coordinates,
@@ -190,7 +189,7 @@ function playback(index) {
 function isElementOnScreen(id) {
   var element = document.getElementById(id);
   var bounds = element.getBoundingClientRect();
-  return bounds.top < window.innerHeight && bounds.bottom > 0;
+  return bounds.top < window.innerHeight && bounds.bottom > distanceToTopForActiveConcertInfo;
 }
 
 
