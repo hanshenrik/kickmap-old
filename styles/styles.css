@@ -10,7 +10,8 @@ body {
 #map {
   position: fixed;
   height: 100vh;
-  width: 70%;
+  width: 100%;
+  /*width: 70%;*/
 }
 
 #current-concert-marker {
@@ -35,10 +36,10 @@ body {
   padding:  25px 50px;
   line-height: 25px;
   border-bottom: 1px solid #ddd;
-  opacity: 0.25;
+  /*opacity: 0.25;
 }
 .concert.active {
-  opacity: 1;
+  opacity: 1;*/
 }
 .concert:last-child {
   border-bottom: none;

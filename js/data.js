@@ -14,6 +14,7 @@ function getConcerts(areaID = 31425) { // Use ID of Trondheim by default
 
 function getSongkickConcertsPage(areaID, page) {
   console.log('Fetching page ' + page + ' for areaID = ' + areaID);
+
   $.getJSON( 'http://api.songkick.com/api/3.0/metro_areas/' + areaID + '/calendar.json',
     {
       apikey: SONGKICK_API_KEY,
@@ -25,7 +26,10 @@ function getSongkickConcertsPage(areaID, page) {
         var totalPages = Math.ceil(totalEntries/perPage);
 
         console.log('Got page ' + page + '/' + totalPages + ' for areaID = ' + areaID);
+
         $.each( data.resultsPage.results.event, function(i, concert) {
+          console.log(concert);
+
           // Create a GeoJson feature so we can represent the concert on the map
           var feature = {
             'type': 'Feature',
@@ -47,24 +51,26 @@ function getSongkickConcertsPage(areaID, page) {
 
           concertsCollection.features.push(feature);
 
-          // Create some HTML to show info about the concert in the list
-          addConcertSection(feature);
+          // // Create some HTML to show info about the concert in the list
+          // addConcertSection(feature);
         });
 
         // Get the next page, unless we're not at the last page
         if (page*perPage >= totalEntries) {
           console.log('Finished fetching all ' + totalEntries + ' events from Songkick.');
-          addSources();
-          addLayers();
-          console.log('Starting playback');
-          playback(0);
+
+          // addSources();
+          // addLayers();
+
+          // console.log('Starting playback');
+          // playback(0);
         }
         else {
           getSongkickConcertsPage(31422, page+1);
         }
       })
       .fail( function() {
-        console.log('Oh, balls! Something went horribly wrong.')
+        console.log('Oh, balls! Something went horribly wrong.');
       } )
       .always( function() {} );
 }
