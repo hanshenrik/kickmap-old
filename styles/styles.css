@@ -1,4 +1,4 @@
-/* General styles */
+
 body {
   margin: 0;
   padding: 0;
@@ -13,12 +13,21 @@ body {
   width: 70%;
 }
 
+#current-concert-marker {
+  background-image: url('../images/marker.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
 #concerts {
   position: relative;
   width: 30%;
   margin-left: 70%;
   height: 100%;
-  font-family: sans-serif;
   overflow-y: scroll;
   background-color: #fafafa;
 }
@@ -48,7 +57,7 @@ body {
 .songkick-attribution {
   position: fixed;
   bottom: 0;
-  /*right: 0;*/
+  right: 0;
   padding: 5px;
   height: 40px;
   width: auto;

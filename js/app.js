@@ -1,6 +1,6 @@
 
 setupMap();
 
-getConcerts(31422);
+getConcerts();
 
 addScrollListener();

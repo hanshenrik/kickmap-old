@@ -1,7 +1,7 @@
 
 1) index.html + app.js
   - mapbox <script> and <link> tags
-  - siv#map in index.html
+  - div#map in index.html
   - setupMap() in map.js
 
 2) data.js
