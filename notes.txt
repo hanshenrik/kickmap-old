@@ -1,25 +1,26 @@
 
 1) index.html + app.js
-  - mapbox <script> and <link> tags
+  - Mapbox GL JS <script> and <link> tags
   - div#map in index.html
   - setupMap() in map.js
 
-2) data.js
+2) data.js: getting the concerts
   - uncomment data.js in index.html
   - uncomment getConcerts() in app.js
   - look at console
     - see what data we have to work with
   - look at
-    - concertsGeoJson
     - getSongkickConcertsPage()
       - feature geometry
-      - pushed to concertsGeoJson
+      - pushed to concertsCollection
   - still nothing on the map...
     - uncomment addSources() in data.js
+      - map.getSource('concerts') --> _data
     - uncomment addLayers() in data.js
   - note: sources and layers are added after data object is populated
+  - zoom in and out, see Mapbox handling collisions :)
 
-3) cluster the concerts
+3) map.js: cluster the concerts
   - uncomment cluster options in addSources() in map.js
   - uncomment the other layers in addLayers() in map.js
 
@@ -28,7 +29,7 @@
   - uncomment 70% width in style.css
   - uncomment addConcertSection() in data.js
 
-5) interact with map
+5) more interactivityness
   - uncomment addScrollListener() in app.js
   - uncomment flyTo() in map.js
   - opacity in styles.css
@@ -37,7 +38,6 @@
   - uncomment playback() in data.js
 
 7) custom Mapbox style
-  - switch style in map.js
   - show mapbox.com/studio
 
 extra note: markers at same location with Leaflet's MarkerCluster
