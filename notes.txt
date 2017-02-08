@@ -5,7 +5,6 @@
   - setupMap() in map.js
 
 2) data.js: getting the concerts
-  - uncomment data.js in index.html
   - uncomment getConcerts() in app.js
   - look at console
     - see what data we have to work with
@@ -25,14 +24,12 @@
   - uncomment the other layers in addLayers() in map.js
 
 4) concert info list
-  - uncomment #concerts + img in index.html
   - uncomment 70% width in style.css
   - uncomment addConcertSection() in data.js
 
 5) more interactivityness
   - uncomment addScrollListener() in app.js
   - uncomment flyTo() in map.js
-  - opacity in styles.css
 
 6) play
   - uncomment playback() in data.js
