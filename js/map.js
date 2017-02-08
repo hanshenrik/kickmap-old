@@ -3,7 +3,7 @@
 var map;
 var currentConcertMarker;
 var activeConcertId;
-var timeAtEachConcert = 3000; // milliseconds
+var timeAtEachConcert = 4000; // milliseconds
 var colors = ['#7DFFC2', '#17F08A', '#00C86A'];
 var distanceToTopForActiveConcertInfo = 200;
 var highlightVenueGeoJson =
@@ -27,8 +27,8 @@ function setupMap() {
   map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9', // mapbox://styles/hanshenrik/civwyr9w800442klkf66ughei
-    center: [10.394363, 63.429719],
-    zoom: 13
+    center: [10.7522, 59.9139],
+    zoom: 7
   });
 }
 

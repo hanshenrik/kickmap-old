@@ -6,7 +6,7 @@ var concertsCollection = {
 };
 
 
-function getConcerts(areaID = 31425) { // Use ID of Trondheim by default
+function getConcerts(areaID = 31422) { // Use ID of Oslo by default
   // Fetch page 1, kicks off recursive call
   getSongkickConcertsPage(areaID, 1);
 }
