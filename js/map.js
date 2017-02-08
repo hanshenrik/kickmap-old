@@ -26,7 +26,7 @@ function setupMap() {
 
   map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/dark-v9', // mapbox://styles/hanshenrik/civwyr9w800442klkf66ughei
+    style: 'mapbox://styles/mapbox/dark-v9',
     center: [10.7522, 59.9139],
     zoom: 7
   });
@@ -74,8 +74,8 @@ function addLayers() {
   // Display the concert data in three layers, each filtered to a range of
   // count values. Each range gets a different fill color.
   var layers = [
-      [10, colors[2]],
-      [5, colors[1]],
+      [50, colors[2]],
+      [20, colors[1]],
       [0, colors[0]]
   ];
 
