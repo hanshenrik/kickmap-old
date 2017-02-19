@@ -34,9 +34,9 @@ function getSongkickConcertsPage(areaID, page) {
               'title': concert.displayName,
               'date': concert.start.date,
               'popularity': concert.popularity,
-              'artist': concert.performance[0].displayName,
+              'artist': '',
               'venue': concert.venue.displayName,
-              'imageURL': 'http://images.sk-static.com/images/media/profile_images/artists/' + concert.performance[0].artist.id + '/huge_avatar',
+              'imageURL': '',
               'songkickURL': concert.uri
             },
             'geometry': {
@@ -44,6 +44,11 @@ function getSongkickConcertsPage(areaID, page) {
               'coordinates': [concert.location.lng, concert.location.lat]
             }
           };
+
+          if (concert.performance[0]) {
+            feature.properties.artist = concert.performance[0].displayName;
+            feature.properties.imageURL = 'http://images.sk-static.com/images/media/profile_images/artists/' + concert.performance[0].artist.id + '/huge_avatar';
+          }
 
           concertsCollection.features.push(feature);
 
@@ -60,7 +65,7 @@ function getSongkickConcertsPage(areaID, page) {
           playback(0);
         }
         else {
-          getSongkickConcertsPage(31422, page+1);
+          getSongkickConcertsPage(areaID, page+1);
         }
       })
       .fail( function() {
