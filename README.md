@@ -1,19 +1,26 @@
-# kickmap
-A map showing concerts in an area. Concerts are fetched from [Songkick](https://www.songkick.com), the map is made with [Mapbox GL](https://www.mapbox.com/).
+# Jazzatlas
+Hvor er alle greiene på Mandaljazz, egentlig? De finner du i Jazzatlaset.
 
-![Oslo kickmap](https://raw.githubusercontent.com/hanshenrik/kickmap/master/images/kickmap.gif)
 
-# API keys
-## Songkick
-Songkick requires all users of their API to apply for an API key. You can do so at [songkick.com/developer](https://www.songkick.com/developer). Beware this might take about 2 weeks, even though they say it should only take 7 days.
+# Utvikling
+## Mapbox access token
+For å bruke Mapbox trenger man en sånn access token. Registrer deg gratis på [mapbox.com](https://www.mapbox.com/) for å få en.
 
-## Mapbox
-To use Mapbox you need an access token, which you get when you register at [mapbox.com](https://www.mapbox.com/). It's free and gives you access to Mapbox Studio, statistics about map views and other stuff.
-
-## Include the keys in the project
-Once you have the keys, create a file called `api-keys.js` in the `js` folder that looks like this
+Lag en fil som heter `env.js` i `scripts`-mappen som ser slik ut:
 
     var MAPBOX_ACCESS_TOKEN = 'my_mapbox_access_token';
-    var SONGKICK_API_KEY = 'my_songkick_api_key';
+    var MAPBOX_STYLE_URL    = 'mapbox://styles/hanshenrik/cizcwc8d600bb2spm3i0x80ot';
+    var PLACES_DATASET_ID   = 'my_places_dataset_id';
+    var EVENTS_DATASET_ID   = 'my_events_dataset_id';
 
-And you're off!
+
+## Mapbox Studio
+Vi bruker [Mapbox Studio](https://www.mapbox.com/studio) til tre ting:
+
+* Style kartet
+* Legge inn faste steder (konsertsteder, festivalområde, infostands, installasjoner, etc.)
+* Legge inn hendinger (konserter, happenings, etc.)
+
+
+# Smil
+Det er jo ikke så verst i dag, er'e det 'a?

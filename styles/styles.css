@@ -11,9 +11,19 @@ body {
   position: fixed;
   height: 100vh;
   width: 70%;
+  /*width: 100%;*/
 }
 
-#current-concert-marker {
+.event-marker {
+  background-image: url('../images/jazzlaug.png');
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#current-event-marker {
   background-image: url('../images/marker.png');
   background-size: cover;
   width: 50px;
@@ -23,7 +33,7 @@ body {
   transition: opacity 0.2s ease-in-out;
 }
 
-#concerts {
+#events {
   position: relative;
   width: 30%;
   margin-left: 70%;
@@ -31,19 +41,19 @@ body {
   overflow-y: scroll;
   background-color: #fafafa;
 }
-.concert {
+.event {
   padding:  25px 50px;
   line-height: 25px;
   border-bottom: 1px solid #ddd;
   opacity: 0.25;
 }
-.concert.active {
+.event.active {
   opacity: 1;
 }
-.concert:last-child {
+.event:last-child {
   border-bottom: none;
 }
-.concert-info {
+.event-info {
   display: flex;
   justify-content: space-between;
 }
@@ -52,13 +62,4 @@ body {
   height: 100px;
   width: 100px;
   border-radius: 50%;
-}
-
-.songkick-attribution {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
-  height: 40px;
-  width: auto;
 }
