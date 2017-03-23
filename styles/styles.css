@@ -11,7 +11,6 @@ body {
   position: fixed;
   height: 100vh;
   width: 70%;
-  /*width: 100%;*/
 }
 
 .event-marker {
@@ -46,6 +45,7 @@ body {
   line-height: 25px;
   border-bottom: 1px solid #ddd;
   opacity: 0.25;
+  height: 70vh;
 }
 .event.active {
   opacity: 1;
@@ -58,7 +58,7 @@ body {
   justify-content: space-between;
 }
 
-#artist-img {
+.artist-img {
   height: 100px;
   width: 100px;
   border-radius: 50%;

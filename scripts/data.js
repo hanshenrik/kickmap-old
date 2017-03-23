@@ -19,6 +19,8 @@ function getEvents() {
       .done( function(data) {
         eventsCollection.features = data.features;
         addEventsToMap();
+        addEventsToInfoSection();
+        playback(0);
       })
       .fail( function() {
         console.log('Oh, tits! Something went horribly wrong.')
@@ -35,9 +37,6 @@ function getPlaces() {
       .done( function(data) {
         placesCollection.features = data.features;
         addPlacesToMap();
-
-        // TODO: use promises!
-        getEvents();
       })
       .fail( function() {
         console.log('Oh, balls! Something went horribly wrong.')
@@ -46,9 +45,22 @@ function getPlaces() {
 }
 
 
+function addEventsToInfoSection() {
+  console.log('Adding events to info section');
+  eventsCollection.features.forEach( function(eventFeature) {
+    addEventInfoSection(eventFeature);
+  });
+}
+
 // Yeyeye, should have used some templating...
 function addEventInfoSection(eventFeature) {
-  var $concertDiv = $('<div>').attr('id', 'event-' + eventFeature.properties.id).attr('class', 'event').html(" \
+  // TODO: do this when initially populating eventCollection
+  eventFeature.properties.title = eventFeature.properties.artist + ' @ ' + eventFeature.properties.place;
+  // TODO: add URLs to features
+  eventFeature.properties.imageURL = '/images/jazzlaug.png';
+  eventFeature.properties.mandaljazzURL = 'http://mandaljazz.no/';
+
+  var $eventDiv = $('<div>').attr('id', 'event-' + eventFeature.id).attr('class', 'event').html(" \
     <h3 id='title'>" + eventFeature.properties.title + "</h3> \
     <div class='event-info'> \
       <div> \
@@ -57,22 +69,21 @@ function addEventInfoSection(eventFeature) {
             <td> \
               <i class='fa fa-map-marker'></i> \
             </td> \
-            <td id='venue'>" + eventFeature.properties.venue + "</td> \
+            <td id='venue'>" + eventFeature.properties.place + "</td> \
           </tr> \
           <tr> \
             <td><i class='fa fa-calendar'></i></td> \
-            <td id='date'>" + eventFeature.properties.date + "</td> \
-          </tr> \
-          <tr> \
-            <td><a href='https://www.youtube.com/results?search_query=" + eventFeature.properties.artist + "' target='_blank' id='youtube'><i class='fa fa-youtube'></i></a></td> \
+            <td id='date'>" + eventFeature.properties.start + "</td> \
           </tr> \
         </table> \
       </div> \
       <div> \
-        <img id='artist-img' src='" + eventFeature.properties.imageURL + "' \> \
+        <a href='" + eventFeature.properties.mandaljazzURL + "' target='_blank'> \
+          <img class='artist-img' src='" + eventFeature.properties.imageURL + "' \> \
+        </a> \
       </div> \
     </div> \
   ");
 
-  $('#concerts').append($concertDiv);
+  $('#events').append($eventDiv);
 }

@@ -1,24 +1,10 @@
 
 // Variables
 var map;
-var currentConcertMarker;
-var activeConcertId;
+var activeEventId;
 var timeAtEachConcert = 4000; // milliseconds
 var colors = ['#7DFFC2', '#17F08A', '#00C86A'];
 var distanceToTopForActiveConcertInfo = 200;
-var highlightVenueGeoJson =
-  {
-    'type': 'geojson',
-    'data': {
-      'type': 'FeatureCollection',
-      'features': [{
-        'type': 'Feature',
-        'geometry': {
-          'type': 'Point'
-        }
-      }]
-    }
-  };
 
 
 function initMap() {
@@ -27,7 +13,7 @@ function initMap() {
   map = new mapboxgl.Map({
     container: 'map',
     style: MAPBOX_STYLE_URL,
-    center: [7.458592, 58.028429],
+    center: [7.451416, 58.025576],
     zoom: 15
   });
 }
@@ -43,10 +29,20 @@ function addPlacesToMap() {
   
   map.addLayer({
     'id': 'places',
-    'type': 'fill',
     'source': 'places',
+    'type': 'fill-extrusion',
+    'minzoom': 15,
     'paint': {
-      'fill-color': '#93f1a4'
+      'fill-extrusion-color': '#f67586',
+      'fill-extrusion-height': {
+        'type': 'identity',
+        'property': 'height'
+      },
+      'fill-extrusion-base': {
+        'type': 'identity',
+        'property': 'base-height'
+      },
+      'fill-extrusion-opacity': .7
     }
   });
 }
@@ -60,35 +56,28 @@ function addEventsToMap() {
     data: eventsCollection
   });
 
-  eventsCollection.features.forEach( function(eventFeature) {
-    console.log(eventFeature)
-
-    var $div = $('<a>',
-      { 'id': 'current-concert-marker',
-        'class': 'event-marker',
-      });
-
-    // TODO: include this in Mapbox dataset
-    eventFeature.artist = 'kenny'
-
-    // Set the background based on the artist
-    $div.css('background-image', 'url(../images/' + eventFeature.artist + '.jpg)')
-
-    // Add the marker to map
-    eventMarker = new mapboxgl.Marker($div.get(0), {offset: [10*getRandomInt(-5,5), 10*getRandomInt(-5,5)]})
-      .setLngLat(eventFeature.geometry.coordinates)
-      .addTo(map);
+  map.addLayer({
+    'id': 'events',
+    'source': 'events',
+    'type': 'symbol',
+    'layout': {
+      'icon-image': 'marker-15',
+      'icon-size': 2,
+      'icon-allow-overlap': true,
+      'text-field': '{artist} @ {place}',
+      'text-offset': [0, 1.3],
+      'text-anchor': 'top'
+    }
   });
 }
 
 
 function addScrollListener() {
   window.onscroll = function() {
-    var concertIds = Object.keys(concertsCollection.features);
-    $.each(concertsCollection.features, function() {
-      var concertId = 'concert-' + this.properties.id;
-      if (isElementOnScreen(concertId)) {
-        setActiveConcert(this);
+    $.each(eventsCollection.features, function() {
+      var eventId = 'event-' + this.id;
+      if (isElementOnScreen(eventId)) {
+        setActiveEvent(this);
         return false;
       }
     })
@@ -96,74 +85,42 @@ function addScrollListener() {
 }
 
 
-function setActiveConcert(concertFeature) {
-  var concertId = 'concert-' + concertFeature.properties.id;
-  if (concertId === activeConcertId) return;
+function setActiveEvent(eventFeature) {
+  var eventId = 'event-' + eventFeature.id;
+  if (eventId === activeEventId) return;
 
   // Highlight the active concert in the concert list
-  $('#' + concertId).addClass('active');
-  $('#' + activeConcertId).removeClass('active');
-
-  // map.setCenter(concertFeature.geometry.coordinates);
+  $('#' + eventId).addClass('active');
+  $('#' + activeEventId).removeClass('active');
 
   // Animate the map position based on camera properties
   map.flyTo({
-    center: concertFeature.geometry.coordinates,
+    center: eventFeature.geometry.coordinates,
     speed: 0.5,                        // Speed of the flight
     curve: 1.3,                        // How far 'out' we should zoom on the flight from A to B
-    zoom: getRandomInt(14, 17),        // Set a random zoom level for effect
+    zoom: getRandomInt(15, 17),        // Set a random zoom level for effect
     pitch: getRandomInt(0, 61),        // Pitch for coolness
     bearing: getRandomInt(-10, 10)     // Tilt north direction slightly for even more coolness!
   });
 
-  currentConcertMarker = addCurrentConcertMarker(concertFeature);
-
-  map.once('moveend', function() {
-    console.log('Finished flying to concert location. Now move and fading in marker...')
-    currentConcertMarker.setLngLat(concertFeature.geometry.coordinates);
-    currentConcertMarker.getElement().style.opacity = 1;
-  });
-
-  activeConcertId = concertId;
-}
-
-
-function addCurrentConcertMarker(concertFeature) {
-  // Create the marker if not already present
-  if (currentConcertMarker === undefined) {
-    // Create DOM element for the marker
-    var $div = $('<a>',
-      { 'id': 'current-concert-marker',
-        'target': '_blank'
-      });
-
-    currentConcertMarker = new mapboxgl.Marker($div.get(0), { offset: [-25, -50] })
-      .setLngLat(concertFeature.geometry.coordinates)
-      .addTo(map);
-  }
-
-  // Fade out and update link
-  currentConcertMarker.getElement().style.opacity = 0;
-  currentConcertMarker.getElement().setAttribute('href', 'https://www.youtube.com/results?search_query=' + concertFeature.properties.artist);
-
-  return currentConcertMarker;
+  activeEventId = eventId;
 }
 
 
 // Loop through all concerts indefinitely
 function playback(index) {
   // Get the current concert
-  var concertFeature = concertsCollection.features[index];
+  var eventFeature = eventsCollection.features[index];
 
   // Scroll to the correct concert section
-  $('html, body').animate({ scrollTop: $('#concert-' + concertFeature.properties.id).position().top + 2 }, 800)
+  $('html, body').animate({ scrollTop: $('#event-' + eventFeature.id).position().top + 2 }, 800)
 
   // Once the flight has ended, initiate a timeout that triggers a recursive call
   map.once('moveend', function() {
     window.setTimeout( function() {
       // Get index of the next concert.
       // Modulus length makes it 0 if we're at the last index, i.e. we'll start from the beginning again.
-      var nextIndex = (index + 1) % concertsCollection.features.length;
+      var nextIndex = (index + 1) % eventsCollection.features.length;
 
       // Recursive call, fly to next concert
       playback(nextIndex);
