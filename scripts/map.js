@@ -22,6 +22,7 @@ function initMap() {
 
   map.addControl(new mapboxgl.AttributionControl({ compact: true }));
   map.addControl(new mapboxgl.NavigationControl());
+  map.addControl(new mapboxgl.GeolocateControl({ positionOptions: { enableHighAccuracy: true } }));
   map.addControl(new mapboxgl.FullscreenControl());
 }
 
@@ -90,7 +91,7 @@ function addEventsToMap() {
           </a> \
         </div> \
       </div> \
-        <div>Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist</div> \
+      <div>Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist</div> \
     ";
 
 
@@ -98,7 +99,7 @@ function addEventsToMap() {
       .setHTML(popupContent);
 
     // add marker to map
-    marker = new mapboxgl.Marker(markerDiv, {offset: [-30, -30]})
+    marker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
       .setLngLat(eventFeature.geometry.coordinates)
       .setPopup(popup)
       .addTo(map);
