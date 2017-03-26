@@ -1,7 +1,7 @@
 
 // Variables
 var map;
-var timeAtEachConcert = 4000; // milliseconds
+var timeAtEachConcert = 5000; // milliseconds
 var colors = {
   blue: '#3255a4',
   red: '#f15060'
@@ -15,8 +15,8 @@ function initMap() {
   map = new mapboxgl.Map({
     container: 'map',
     style: MAPBOX_STYLE_URL,
-    center: [7.451416, 58.025576],
-    zoom: 15,
+    center: [11.5, 65],
+    zoom: 4,
     attributionControl: false,
   });
 
@@ -64,7 +64,7 @@ function addEventsToMap() {
     markerDiv.className = 'event-marker';
 
     eventFeature.properties.title = eventFeature.properties.artist + ' @ ' + eventFeature.properties.place;
-    eventFeature.properties.imageURL = '/images/jazzlaug.png';
+    eventFeature.properties.imageURL = './images/jazzlaug.png';
     eventFeature.properties.mandaljazzURL = 'http://mandaljazz.no/';
 
     var popupContent = " \
