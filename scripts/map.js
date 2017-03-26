@@ -7,6 +7,7 @@ var colors = {
   red: '#f15060'
 };
 var eventMarkers = [];
+var locationMarker;
 
 
 function initMap() {
@@ -27,11 +28,17 @@ function initMap() {
   map.addControl(new mapboxgl.FullscreenControl());
 
   geolocate.on('geolocate', function(e) {
-    var markerDiv = document.createElement('div');
-    markerDiv.className = 'location-marker';
-    marker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
-      .setLngLat([e.coords.longitude, e.coords.latitude])
-      .addTo(map);
+    // Only create the marker if it does not exist, otherwise just update the position
+    if (locationMarker) {
+      locationMarker.setLngLat([e.coords.longitude, e.coords.latitude])
+    }
+    else {
+      markerDiv = document.createElement('div');
+      markerDiv.className = 'location-marker';
+      locationMarker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
+        .setLngLat([e.coords.longitude, e.coords.latitude])
+        .addTo(map);
+    }
   });
 }
 
