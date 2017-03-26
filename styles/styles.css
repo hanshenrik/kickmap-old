@@ -28,6 +28,13 @@ body {
   background-color: rgba(50, 85, 164, 0.75);
   opacity: 0.9;
 }
+.location-marker-accuracy {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(50, 85, 164, 0.75);
+  opacity: 0.2;
+}
 
 .mapboxgl-popup {
   transform: translate(0) !important;

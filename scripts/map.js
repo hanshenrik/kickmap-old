@@ -7,7 +7,7 @@ var colors = {
   red: '#f15060'
 };
 var eventMarkers = [];
-var locationMarker;
+var locationMarker, locationMarkerAccuracy;
 
 
 function initMap() {
@@ -31,11 +31,18 @@ function initMap() {
     // Only create the marker if it does not exist, otherwise just update the position
     if (locationMarker) {
       locationMarker.setLngLat([e.coords.longitude, e.coords.latitude])
+      locationMarkerAccuracy.setLngLat([e.coords.longitude, e.coords.latitude])
     }
     else {
-      markerDiv = document.createElement('div');
-      markerDiv.className = 'location-marker';
-      locationMarker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
+      accuracyMarker = document.createElement('div');
+      accuracyMarker.className = 'location-marker-accuracy';
+      locationMarkerAccuracy = new mapboxgl.Marker(accuracyMarker, { offset: [-70 / 2, -70 / 2] })
+        .setLngLat([e.coords.longitude, e.coords.latitude])
+        .addTo(map);
+
+      locationMarker = document.createElement('div');
+      locationMarker.className = 'location-marker';
+      locationMarker = new mapboxgl.Marker(locationMarker, { offset: [-15 / 2, -15 / 2] })
         .setLngLat([e.coords.longitude, e.coords.latitude])
         .addTo(map);
     }
