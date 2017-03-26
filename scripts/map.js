@@ -1,13 +1,11 @@
 
 // Variables
 var map;
-var activeEventId;
 var timeAtEachConcert = 4000; // milliseconds
 var colors = {
   blue: '#3255a4',
   red: '#f15060'
 };
-var distanceToTopForActiveConcertInfo = 200;
 var eventMarkers = [];
 
 
@@ -109,7 +107,6 @@ function addEventsToMap() {
   });
 }
 
-
 // Loop through all concerts indefinitely
 function playback(index) {
   // Get the current event marker
@@ -130,7 +127,7 @@ function playback(index) {
     // Toggle on info about this event
     eventMarker.togglePopup();
 
-    window.setTimeout( function() {
+    setTimeout( function() {
       // Toggle off info about this event
       eventMarker.togglePopup();
 

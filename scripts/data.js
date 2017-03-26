@@ -19,7 +19,7 @@ function getEvents() {
       .done( function(data) {
         eventsCollection.features = data.features;
         addEventsToMap();
-        // playback(0);
+        playback(0);
       })
       .fail( function() {
         console.log('Oh, tits! Something went horribly wrong.')

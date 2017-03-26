@@ -6,4 +6,3 @@ map.on('load', function() {
 
   getEvents();
 });
-
