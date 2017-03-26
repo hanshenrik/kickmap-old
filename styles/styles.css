@@ -21,6 +21,13 @@ body {
   border-radius: 50%;
   cursor: pointer;
 }
+.location-marker {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: rgba(50, 85, 164, 0.75);
+  opacity: 0.9;
+}
 
 .mapboxgl-popup {
   transform: translate(0) !important;

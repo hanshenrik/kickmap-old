@@ -22,10 +22,18 @@ function initMap() {
 
   map.addControl(new mapboxgl.AttributionControl({ compact: true }));
   map.addControl(new mapboxgl.NavigationControl());
-  map.addControl(new mapboxgl.GeolocateControl({ positionOptions: { enableHighAccuracy: true } }));
+  var geolocate = new mapboxgl.GeolocateControl({ positionOptions: { enableHighAccuracy: true } })
+  map.addControl(geolocate);
   map.addControl(new mapboxgl.FullscreenControl());
-}
 
+  geolocate.on('geolocate', function(e) {
+    var markerDiv = document.createElement('div');
+    markerDiv.className = 'location-marker';
+    marker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
+      .setLngLat([e.coords.longitude, e.coords.latitude])
+      .addTo(map);
+  });
+}
 
 function addPlacesToMap() {
   console.log('Adding places to the map');
