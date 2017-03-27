@@ -17,6 +17,11 @@ body {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'TelefonBoldItalic', Verdana, sans-serif;
+  line-height: 1;
+}
+
+a {
+  text-decoration: none;
 }
 
 #map {
@@ -54,6 +59,18 @@ h1, h2, h3, h4, h5, h6 {
   opacity: 0.2;
 }
 
+.event-info {
+  color: white;
+  font-size: 2em;
+  padding: 1rem;
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+
+/* Mapbox overrides */
 .mapboxgl-map {
   font-family: inherit;
   font-size: inherit;
@@ -73,24 +90,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .mapboxgl-popup-tip { display: none; }
 .mapboxgl-popup-content {
-  background-color: rgba(255, 255, 255, 0.93);
-  padding: 3em;
   border-radius: 1px;
+  padding: 0;
 }
 @media (min-width: 768px) {
   .mapboxgl-popup-content {
     max-width: 400px;
   }
-}
-
-.event-info {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.artist-img {
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
 }

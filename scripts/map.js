@@ -97,29 +97,10 @@ function addEventsToMap() {
     markerDiv.style.backgroundImage = 'url('+eventFeature.properties.imageURL+')';
 
     var popupContent = " \
-      <div class='event-info'> \
-        <div> \
-          <h3 id='title'>" + eventFeature.properties.title + "</h3> \
-          <table> \
-            <tr> \
-              <td> \
-                <i class='fa fa-map-marker'></i> \
-              </td> \
-              <td id='venue'>" + eventFeature.properties.place + "</td> \
-            </tr> \
-            <tr> \
-              <td><i class='fa fa-calendar'></i></td> \
-              <td id='date'>" + eventFeature.properties.start + "</td> \
-            </tr> \
-          </table> \
-        </div> \
-        <div> \
-          <a href='" + eventFeature.properties.mandaljazzURL + "' target='_blank'> \
-            <img class='artist-img' src='" + eventFeature.properties.imageURL + "' \> \
-          </a> \
-        </div> \
-      </div> \
-      <div>Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist. Info info infoinfoinfo om artist</div> \
+      <a href='" + eventFeature.properties.mandaljazzURL + "' target='_blank' class='event-info' style='background-image: url(" + eventFeature.properties.imageURL + ");'> \
+        <h1>" + eventFeature.properties.start + "</h1> \
+        <h2>" + eventFeature.properties.title + "</h2> \
+      </a> \
     ";
 
 
