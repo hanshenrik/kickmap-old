@@ -87,30 +87,21 @@ function addEventsToMap() {
 
   eventsCollection.features.forEach(function(eventFeature, i) {
     // create a DOM element for the marker
-    var markerDiv = document.createElement('div');
+    var markerDiv = document.createElement('a');
     markerDiv.className = 'event-marker';
 
     eventFeature.properties.title = eventFeature.properties.artist + ' @ ' + eventFeature.properties.place;
     eventFeature.properties.imageURL = 'https://semantic-ui.com/images/avatar/large/' + exampleImages[i % exampleImages.length] + '.jpg';
     eventFeature.properties.mandaljazzURL = 'http://mandaljazz.no/';
 
-    markerDiv.style.backgroundImage = 'url('+eventFeature.properties.imageURL+')';
-
-    var popupContent = " \
-      <a href='" + eventFeature.properties.mandaljazzURL + "' target='_blank' class='event-info' style='background-image: url(" + eventFeature.properties.imageURL + ");'> \
-        <h1>" + eventFeature.properties.start + "</h1> \
-        <h2>" + eventFeature.properties.title + "</h2> \
-      </a> \
-    ";
-
-
-    var popup = new mapboxgl.Popup({ offset: 0 })
-      .setHTML(popupContent);
+    markerDiv.style.backgroundImage = 'url(' + eventFeature.properties.imageURL + ')';
+    markerDiv.href = eventFeature.properties.mandaljazzURL;
+    markerDiv.target = '_blank';
+    markerDiv.innerHTML = "<div class='event-info'><h1>" + eventFeature.properties.start + "</h1><h2>" + eventFeature.properties.title + "</h2></div>";
 
     // add marker to map
     marker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })
       .setLngLat(eventFeature.geometry.coordinates)
-      .setPopup(popup)
       .addTo(map);
     
     eventMarkers.push(marker);
@@ -135,14 +126,14 @@ function playback(index) {
   // Once the flight has ended, initiate a timeout that triggers a recursive call
   map.once('moveend', function() {
     // Toggle on info about this event
-    eventMarker.togglePopup();
+    // eventMarker.togglePopup();
 
     // Indicate that this is the active marker;
     eventMarker._element.classList.add('active');
 
     setTimeout( function() {
       // Toggle off info about this event
-      eventMarker.togglePopup();
+      // eventMarker.togglePopup();
 
       // Indicate that this is the active marker;
       eventMarker._element.classList.remove('active');

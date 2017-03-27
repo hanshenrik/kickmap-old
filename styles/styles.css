@@ -36,14 +36,34 @@ a {
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
-  transition: width 1s ease-in-out, height 1s ease-in-out, z-index 1s ease-in-out;
+  transition:
+    width 1s ease-in-out,
+    height 1s ease-in-out,
+    z-index 1s ease-in-out;
   z-index: 1;
 }
 .event-marker.active {
-  width: 100px;
-  height: 100px;
+  width: 350px;
+  height: 350px;
   z-index: 2;
 }
+.event-marker.active .event-info {
+  font-size: 1.4rem;
+}
+.event-info {
+  color: white;
+  font-size: 0px;
+  padding: 1rem;
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
+  justify-content: center;
+  transition: font 1s ease-in-out;
+}
+
 .location-marker {
   width: 15px;
   height: 15px;
@@ -59,15 +79,6 @@ a {
   opacity: 0.2;
 }
 
-.event-info {
-  color: white;
-  font-size: 2em;
-  padding: 1rem;
-  background-size: cover;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
 
 
 /* Mapbox overrides */
