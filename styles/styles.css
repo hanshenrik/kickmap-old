@@ -1,10 +1,22 @@
+@font-face {
+  font-family: 'TelefonNormal';
+  src: url('./fonts/Telefon-Normal.otf');
+}
+
+@font-face {
+  font-family: 'TelefonBoldItalic';
+  src: url('./fonts/Telefon-BoldItalic.otf');
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Assistant', sans-serif;
-  font-weight: 300;
+  font-family: 'TelefonNormal', Verdana, sans-serif;
   color: #444;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'TelefonBoldItalic', Verdana, sans-serif;
 }
 
 #map {
@@ -14,12 +26,18 @@ body {
 }
 
 .event-marker {
-  background-image: url('../images/jazzlaug.png');
   background-size: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   cursor: pointer;
+  transition: width 1s ease-in-out, height 1s ease-in-out, z-index 1s ease-in-out;
+  z-index: 1;
+}
+.event-marker.active {
+  width: 100px;
+  height: 100px;
+  z-index: 2;
 }
 .location-marker {
   width: 15px;
@@ -36,11 +54,17 @@ body {
   opacity: 0.2;
 }
 
+.mapboxgl-map {
+  font-family: inherit;
+  font-size: inherit;
+}
+
 .mapboxgl-popup {
   transform: translate(0) !important;
   position: absolute;
   top: auto;
   bottom: 3em;
+  z-index: 3;
 }
 @media (min-width: 768px) {
   .mapboxgl-popup {
@@ -52,7 +76,11 @@ body {
   background-color: rgba(255, 255, 255, 0.93);
   padding: 3em;
   border-radius: 1px;
-  max-width: 400px;
+}
+@media (min-width: 768px) {
+  .mapboxgl-popup-content {
+    max-width: 400px;
+  }
 }
 
 .event-info {

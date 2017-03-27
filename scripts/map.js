@@ -8,7 +8,11 @@ var colors = {
 };
 var eventMarkers = [];
 var locationMarker, locationMarkerAccuracy;
-
+var bounds = [
+  [7.418380, 58.011527], // Southwest coordinates
+  [7.474327, 58.039323]  // Northeast coordinates
+];
+var exampleImages = ['elliot', 'helen', 'jenny', 'steve', 'stevie', 'veronika', 'matt']
 
 function initMap() {
   mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
@@ -16,8 +20,8 @@ function initMap() {
   map = new mapboxgl.Map({
     container: 'map',
     style: MAPBOX_STYLE_URL,
-    center: [11.5, 65],
-    zoom: 4,
+    center: [7.454231, 58.025881],
+    zoom: 15,
     attributionControl: false,
   });
 
@@ -81,14 +85,16 @@ function addPlacesToMap() {
 function addEventsToMap() {
   console.log('Adding events to the map');
 
-  eventsCollection.features.forEach(function(eventFeature) {
+  eventsCollection.features.forEach(function(eventFeature, i) {
     // create a DOM element for the marker
     var markerDiv = document.createElement('div');
     markerDiv.className = 'event-marker';
 
     eventFeature.properties.title = eventFeature.properties.artist + ' @ ' + eventFeature.properties.place;
-    eventFeature.properties.imageURL = './images/jazzlaug.png';
+    eventFeature.properties.imageURL = 'https://semantic-ui.com/images/avatar/large/' + exampleImages[i % exampleImages.length] + '.jpg';
     eventFeature.properties.mandaljazzURL = 'http://mandaljazz.no/';
+
+    markerDiv.style.backgroundImage = 'url('+eventFeature.properties.imageURL+')';
 
     var popupContent = " \
       <div class='event-info'> \
@@ -150,9 +156,15 @@ function playback(index) {
     // Toggle on info about this event
     eventMarker.togglePopup();
 
+    // Indicate that this is the active marker;
+    eventMarker._element.classList.add('active');
+
     setTimeout( function() {
       // Toggle off info about this event
       eventMarker.togglePopup();
+
+      // Indicate that this is the active marker;
+      eventMarker._element.classList.remove('active');
 
       // Get index of the next event.
       // Modulus length makes it 0 if we're at the last index, i.e. we'll start from the beginning again.
