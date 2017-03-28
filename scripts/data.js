@@ -17,7 +17,7 @@ function getEvents() {
       access_token: MAPBOX_ACCESS_TOKEN
     })
       .done( function(data) {
-        eventsCollection.features = data.features;
+        eventsCollection.features = _.sortBy(data.features, 'properties.start');
         addEventsToMap();
         playback(0);
       })
