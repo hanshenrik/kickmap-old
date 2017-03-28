@@ -97,7 +97,11 @@ function addEventsToMap() {
     markerDiv.style.backgroundImage = 'url(' + eventFeature.properties.imageURL + ')';
     markerDiv.href = eventFeature.properties.mandaljazzURL;
     markerDiv.target = '_blank';
-    markerDiv.innerHTML = "<div class='event-info'><h1>" + eventFeature.properties.start + "</h1><h2>" + eventFeature.properties.title + "</h2></div>";
+    markerDiv.innerHTML = "\
+      <div class='event-info'> \
+        <div class='start-time'>" + moment(eventFeature.properties.start).format('dddd HH:mm') + "</div> \
+        <div class='title'>" + eventFeature.properties.title + "</div> \
+      </div>";
 
     // add marker to map
     marker = new mapboxgl.Marker(markerDiv, { offset: [-30, -30] })

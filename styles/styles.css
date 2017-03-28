@@ -20,9 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1;
 }
 
-a {
-  text-decoration: none;
-}
+a { text-decoration: none; }
 
 #map {
   position: fixed;
@@ -39,8 +37,12 @@ a {
   transition:
     width 1s ease-in-out,
     height 1s ease-in-out,
+    filter .2s ease-in-out,
     z-index 1s ease-in-out;
   z-index: 1;
+}
+.event-marker:hover {
+  filter: saturate(4);
 }
 .event-marker.active {
   width: 350px;
@@ -48,20 +50,33 @@ a {
   z-index: 2;
 }
 .event-marker.active .event-info {
-  font-size: 1.4rem;
+  font-size: 1rem;
 }
+
 .event-info {
   color: white;
-  font-size: 0px;
-  padding: 1rem;
+  font-size: 0;
   background-size: cover;
+
+  padding: 1rem;
+  height: 90%;
+  border-radius: 50%;
+
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
-  justify-content: center;
+
   transition: font 1s ease-in-out;
+}
+.start-time, .title {
+  font-family: 'TelefonBoldItalic', Verdana, sans-serif;
+  line-height: 1.5;
+}
+.start-time { font-size: 3.1em; }
+.title {
+  font-size: 1.8em;
+  padding-left: 1em;
 }
 
 .location-marker {
@@ -78,7 +93,6 @@ a {
   background-color: rgba(50, 85, 164, 0.75);
   opacity: 0.2;
 }
-
 
 
 /* Mapbox overrides */
