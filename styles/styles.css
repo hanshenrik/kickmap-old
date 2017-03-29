@@ -1,64 +1,126 @@
+@font-face {
+  font-family: 'TelefonNormal';
+  src: url('./fonts/Telefon-Normal.otf');
+}
+
+@font-face {
+  font-family: 'TelefonBoldItalic';
+  src: url('./fonts/Telefon-BoldItalic.otf');
+}
 
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Assistant', sans-serif;
-  font-weight: 300;
+  font-family: 'TelefonNormal', Verdana, sans-serif;
   color: #444;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'TelefonBoldItalic', Verdana, sans-serif;
+  line-height: 1;
+  color: pink;
+}
+
+a { text-decoration: none; }
 
 #map {
   position: fixed;
   height: 100vh;
-  width: 70%;
+  width: 100vw;
 }
 
-#current-concert-marker {
-  background-image: url('../images/marker.png');
+.event-marker {
   background-size: cover;
   width: 50px;
   height: 50px;
-  cursor: pointer;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-#concerts {
-  position: relative;
-  width: 30%;
-  margin-left: 70%;
-  height: 100%;
-  overflow-y: scroll;
-  background-color: #fafafa;
-}
-.concert {
-  padding:  25px 50px;
-  line-height: 25px;
-  border-bottom: 1px solid #ddd;
-  opacity: 0.25;
-}
-.concert.active {
-  opacity: 1;
-}
-.concert:last-child {
-  border-bottom: none;
-}
-.concert-info {
-  display: flex;
-  justify-content: space-between;
-}
-
-#artist-img {
-  height: 100px;
-  width: 100px;
   border-radius: 50%;
+  cursor: pointer;
+  transition:
+    width 1s ease-in-out,
+    height 1s ease-in-out,
+    filter .2s ease-in-out,
+    z-index 1s ease-in-out;
+  z-index: 1;
+}
+.event-marker:hover {
+  filter: saturate(4);
+}
+.event-marker.active {
+  width: 350px;
+  height: 350px;
+  z-index: 2;
+}
+.event-marker.active .event-info {
+  font-size: 1rem;
 }
 
-.songkick-attribution {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 5px;
-  height: 40px;
-  width: auto;
+.event-info {
+  color: white;
+  font-size: 0;
+  background-size: cover;
+
+  padding: 1rem;
+  height: 90%;
+  border-radius: 50%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  transition: font 1s ease-in-out;
+}
+.start-time, .title {
+  font-family: 'TelefonBoldItalic', Verdana, sans-serif;
+  line-height: 1.5;
+}
+.start-time { font-size: 3.1em; }
+.title {
+  font-size: 1.8em;
+  padding-left: 1em;
+}
+
+.location-marker {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: rgba(50, 85, 164, 0.75);
+  opacity: 0.9;
+}
+.location-marker-accuracy {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(50, 85, 164, 0.75);
+  opacity: 0.2;
+}
+
+
+/* Mapbox overrides */
+.mapboxgl-map {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.mapboxgl-popup {
+  transform: translate(0) !important;
+  position: absolute;
+  top: auto;
+  bottom: 3em;
+  z-index: 3;
+}
+@media (min-width: 768px) {
+  .mapboxgl-popup {
+    left: 3em;
+  }
+}
+.mapboxgl-popup-tip { display: none; }
+.mapboxgl-popup-content {
+  border-radius: 1px;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .mapboxgl-popup-content {
+    max-width: 400px;
+  }
 }
