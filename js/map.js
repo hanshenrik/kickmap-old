@@ -3,7 +3,7 @@
 var map;
 var currentConcertMarker;
 var activeConcertId;
-var timeAtEachConcert = 4000; // milliseconds
+var timeAtEachConcert = 5000; // milliseconds
 var colors = ['#7DFFC2', '#17F08A', '#00C86A'];
 var distanceToTopForActiveConcertInfo = 200;
 var highlightVenueGeoJson =
@@ -28,8 +28,11 @@ function setupMap() {
     container: 'map',
     style: 'mapbox://styles/mapbox/dark-v9',
     center: [10.7522, 59.9139],
-    zoom: 7
+    zoom: 7,
+    attributionControl: false,
   });
+
+  map.addControl(new mapboxgl.AttributionControl({ compact: true }));
 }
 
 
@@ -171,7 +174,7 @@ function addCurrentConcertMarker(concertFeature) {
 
   // Fade out and update link
   currentConcertMarker.getElement().style.opacity = 0;
-  currentConcertMarker.getElement().setAttribute('href', 'https://www.youtube.com/results?search_query=' + concertFeature.properties.artist);
+  currentConcertMarker.getElement().setAttribute('href', concertFeature.properties.songkickURL);
 
   return currentConcertMarker;
 }
