@@ -11,7 +11,6 @@ function getConcerts(areaID = 31422) { // Use ID of Oslo by default
   getSongkickConcertsPage(areaID, 1);
 }
 
-
 function getSongkickConcertsPage(areaID, page) {
   console.log('Fetching page ' + page + ' for areaID = ' + areaID);
   $.getJSON( 'http://api.songkick.com/api/3.0/metro_areas/' + areaID + '/calendar.json',
@@ -89,18 +88,8 @@ function addConcertSection(concertFeature) {
             <td id='venue'>" + concertFeature.properties.venue + "</td> \
           </tr> \
           <tr> \
-            <td> \
-              <i class='fa fa-line-chart'></i> \
-            </td> \
-            <td id='popularity'>" + concertFeature.properties.popularity + "</td> \
-          </tr> \
-          <tr> \
             <td><i class='fa fa-calendar'></i></td> \
             <td id='date'>" + concertFeature.properties.date + "</td> \
-          </tr> \
-          <tr> \
-            <td><i class='fa fa-info-circle'></i></td> \
-            <td><a href='" + concertFeature.properties.songkickURL + "' target='_blank' id='uri'>Songkick event</a></td> \
           </tr> \
           <tr> \
             <td><i class='fa fa-youtube'></i></td> \
@@ -109,7 +98,9 @@ function addConcertSection(concertFeature) {
         </table> \
       </div> \
       <div> \
-        <img id='artist-img' src='" + concertFeature.properties.imageURL + "' \> \
+        <a href='" + concertFeature.properties.songkickURL + "' target='_blank' id='uri'> \
+          <img id='artist-img' src='" + concertFeature.properties.imageURL + "' \> \
+        </a> \
       </div> \
     </div> \
   ");
